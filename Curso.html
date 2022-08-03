@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+
+</head>
+
+<body>
+
+
+  <main>
+
+    <Script src="funciones.js"> </Script>
+
+    <script>
+
+      /*
+      Segun tu ingreso te informa que prestamo podes sacar y te da la opcion de seleccionar en 12,24 y 36 cuotas para despues informarte como te queda el plan, en caso de no poner ESC o un monto cuando te lo pide saldra error.
+      */
+
+      let presupuestoCliente;
+      let preguntarSiEsUsuario;
+      let categoriaPresupuesto;
+      let montoCuotas;
+      let montoPrestamo;
+      let numeroOpciones;
+      let validadorPlan;
+      let validadorAdmin;
+      let idUsuario;
+      let ingresarUsuario;
+      let ingresarContraseña;
+      let ingresarIdCliente;
+      const tasaInteresAnual = 60;
+      const acumuladoClientes = [{idCliente:1,nombreCliente:"Diego",apellidoCliente:"Vellon",mailCliente:"DIEEE@GG.COM",telefonoCliente:1112223336,montoPrestamoCliente:1250000,montoCuotaCliente:3144,cantidadCuotaCliente:12}, {idCliente:2,nombreCliente:"Yanina",apellidoCliente:"Sun",mailCliente:"Yann@GG.COM",telefonoCliente:1444223336,montoPrestamoCliente:1360000,montoCuotaCliente:6144,cantidadCuotaCliente:24}]
+
+
+
+      validadorAdmin = false;
+
+      while (preguntarSiEsUsuario != "SALIR") {
+
+        preguntarSiEsUsuario = prompt("Es USUARIO o ADMIN?").toUpperCase();
+
+        switch (preguntarSiEsUsuario) {
+
+
+          case "USUARIO":
+
+            do {
+
+              validadorPlan = 0;
+
+              presupuestoCliente = prompt("Ingrese el ingreso neto de su sueldo o ESC para salir:").toUpperCase();
+
+              if (presupuestoCliente != "ESC") {
+                presupuestoCliente = parseInt(presupuestoCliente);
+
+
+                if (presupuestoCliente < 30000) {
+
+
+                  alert("Su ingreso no es valido para nuestros planes");
+
+
+                } else if ((presupuestoCliente > 29999) && (presupuestoCliente < 70000)) {
+
+                  categoriaPresupuesto = "bajo";
+                  montoPrestamo = 100000;
+                  calculoMontoCuotas();
+
+                } else if ((presupuestoCliente > 69999) && (presupuestoCliente < 150000)) {
+
+                  categoriaPresupuesto = "medio";
+                  montoPrestamo = 250000;
+                  calculoMontoCuotas();
+
+                } else if ((presupuestoCliente > 149999)) {
+
+                  categoriaPresupuesto = "alto";
+                  montoPrestamo = 450000;
+                  calculoMontoCuotas();
+
+                } else {
+
+                  mensajeInvalido();
+
+                }
+              }
+
+            } while (presupuestoCliente != "ESC")
+            break;
+
+          case "ADMIN":
+
+
+
+            while (validadorAdmin != true) {
+
+
+              ingresarUsuario = prompt("Ingrese su usuario: (ADMIN)");
+              ingresarContraseña = prompt("Ingrese su contraseña: (123456)")
+
+              if ((ingresarUsuario == "ADMIN") && (ingresarContraseña == "123456")) {
+
+                while (ingresarIdCliente != "SALIR") {
+
+                  ingresarIdCliente = prompt("Ingrese la ID del cliente para ver la informacion: ")
+                  ingresarIdCliente = parseInt(ingresarIdCliente);
+
+                  console.log(`esto es`, ingresarIdCliente);
+
+
+                  //Crea un array temporal con el cual puedo obtener el index de ese elemento
+                  let numeroIndex = (acumuladoClientes.map(cliente => cliente.idCliente).indexOf(ingresarIdCliente))
+
+                  if (numeroIndex != -1) {
+
+                    // acumuladoClientes[acumuladoClientes.indexOf(ingresarIdCliente)].mensajeAdministrador()
+
+                    const cliente = acumuladoClientes[numeroIndex];
+
+                    alert(`Id: ${cliente.idCliente}\nNombre: ${cliente.nombreCliente}\nApellido: ${cliente.apellidoCliente}\nMail: ${cliente.mailCliente}\nTelefono: ${cliente.telefonoCliente}\nMonto Total del Prestamo: ${cliente.montoPrestamoCliente}\nMonto de la cuota: ${cliente.montoCuotaCliente}\nCantidad de cuotas: ${cliente.cantidadCuotaCliente}`)
+
+
+                    ingresarIdCliente = prompt("Ingrese 1 para ingresar otra ID o 2 para Salir")
+
+                    if (ingresarIdCliente == "2") {
+
+                      ingresarIdCliente = "SALIR";
+                      preguntarSiEsUsuario = "SALIR"
+
+                    }
+
+                  } else {
+
+                    alert("La Id ingresa no existe en la base prueba nuevamente.")
+
+                  }
+                }
+
+
+                validadorAdmin = true;
+              } else {
+
+                mensajeInvalido();
+
+              }
+            }
+
+            break;
+
+          default:
+
+
+            mensajeInvalido()
+
+        }
+
+      }
+
+    </script>
+
+  </main>
+
+</body>
+
+</html>
